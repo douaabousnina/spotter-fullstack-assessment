@@ -8,7 +8,7 @@ import Footer from "./components/layout/Footer";
 export default function App() {
   return (
     <Router>
-      <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen bg-background">
         <div className="flex-1 flex flex-col">
           <main className="flex-1 p-6 overflow-y-auto">
             <Routes>

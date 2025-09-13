@@ -84,9 +84,9 @@ export default function RouteOverviewPage() {
   const { routeId } = useParams();
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="mx-auto p-6">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-3xl font-bold text-primary">
           Your Compliant Route
         </h1>
         <div className="flex space-x-4">
@@ -95,7 +95,7 @@ export default function RouteOverviewPage() {
               ← Edit Trip
             </Button>
           </Link>
-          <Link to={`/logs/${mockRouteData.route_id}`}>
+          <Link to={`/logs/${routeId}`}>
             <Button variant="success" className="px-6 py-2">
               View ELD Logs
             </Button>
@@ -103,7 +103,7 @@ export default function RouteOverviewPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-8">
+      <div className="bg-white rounded-xl shadow-lg border border-border overflow-hidden mb-8">
         <iframe
           src="https://maps.google.com/maps?q=35.856737, 10.606619&z=15&output=embed"
           width="100%"
@@ -113,7 +113,7 @@ export default function RouteOverviewPage() {
 
         <div className="p-4 bg-gray-50 flex flex-wrap gap-4 text-sm">
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-gray-500 rounded-full border border-gray-300"></div>
+            <div className="w-3 h-3 bg-primary rounded-full border border-gray-300"></div>
             <span>Start Location</span>
           </div>
           <div className="flex items-center space-x-2">
@@ -136,29 +136,29 @@ export default function RouteOverviewPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow border border-gray-200 p-6 text-center">
-          <p className="text-sm text-gray-500 mb-1">Total Distance</p>
+        <div className="bg-white rounded-xl shadow border border-border p-6 text-center">
+          <p className="text-sm text-primary mb-1">Total Distance</p>
           <p className="text-3xl font-bold text-gray-800">
             {mockRouteData.total_distance} mi
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow border border-gray-200 p-6 text-center">
-          <p className="text-sm text-gray-500 mb-1">Estimated Duration</p>
+        <div className="bg-white rounded-xl shadow border border-border p-6 text-center">
+          <p className="text-sm text-primary mb-1">Estimated Duration</p>
           <p className="text-3xl font-bold text-gray-800">
             {mockRouteData.total_duration} hrs
           </p>
         </div>
 
-        <div className="bg-white rounded-xl shadow border border-gray-200 p-6 text-center">
-          <p className="text-sm text-gray-500 mb-1">Mandatory Rest Stops</p>
+        <div className="bg-white rounded-xl shadow border border-border p-6 text-center">
+          <p className="text-sm text-primary mb-1">Mandatory Rest Stops</p>
           <p className="text-3xl font-bold text-gray-800">
             {mockRouteData.restStops.length}
           </p>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow border border-border p-6 mb-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
           Mandatory Rest Stops
         </h2>
@@ -185,7 +185,7 @@ export default function RouteOverviewPage() {
         </ul>
       </div>
 
-      <div className="bg-white rounded-xl shadow border border-gray-200 p-6 mb-8">
+      <div className="bg-white rounded-xl shadow border border-border p-6 mb-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Fuel Stops</h2>
         <ul className="space-y-3">
           {mockRouteData.fuelStops.map((stop, i) => (
@@ -206,36 +206,6 @@ export default function RouteOverviewPage() {
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="bg-green-50 border border-green-200 rounded-xl p-6">
-        <div className="flex items-start space-x-3">
-          <svg
-            className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-            ></path>
-          </svg>
-          <div>
-            <h3 className="font-semibold text-green-800">
-              Fully Compliant with HOS Rules
-            </h3>
-            <p className="text-green-700 mt-1 text-sm">
-              • Property-carrying driver, 70hrs/8days, no adverse driving
-              conditions <br />
-              • Fueling at least once every 1,000 miles <br />• 1 hour for
-              pickup and drop-off
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

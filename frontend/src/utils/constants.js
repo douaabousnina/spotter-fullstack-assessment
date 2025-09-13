@@ -21,8 +21,8 @@ export const STOP_TYPES = {
 };
 
 export const HOURS = Array.from({ length: 25 }, (_, i) => {
-  if (i === 0 || i === 24) return "12 AM";
-  if (i === 12) return "12 PM";
+  if (i === 0 || i === 24) return "Midnight";
+  if (i === 12) return "Noon";
   if (i < 12) return `${i}`;
   return `${i - 12}`;
 });

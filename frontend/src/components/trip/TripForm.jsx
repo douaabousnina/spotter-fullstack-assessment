@@ -5,7 +5,6 @@ import TripFormFields from "./TripFormFields";
 import Button from "../ui/form/Button";
 import Spinner from "../ui/Spinner";
 import tripFormSchema from "../../schemas/tripFormSchema";
-// import apiClient from '../../services/apiClient'
 
 export default function TripForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,15 +37,11 @@ export default function TripForm() {
       <TripFormFields register={register} errors={errors} />
 
       {error && (
-        <p className="p-3 text-sm text-red-700 bg-red-50 rounded-md">{error}</p>
+        <p className="p-3 text-sm text-danger bg-red-50 rounded-md">{error}</p>
       )}
 
       <div className="flex justify-end">
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="w-max py-3 rounded-md bg-cyan-500 hover:bg-cyan-600 cursor-pointer text-white font-medium tracking-wide transition-colors"
-        >
+        <Button variant="primary" type="submit" disabled={isLoading}>
           {isLoading ? <Spinner /> : "Generate Route & ELD Logs"}
         </Button>
       </div>

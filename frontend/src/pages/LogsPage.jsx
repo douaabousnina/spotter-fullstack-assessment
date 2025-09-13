@@ -1,6 +1,7 @@
+// src/pages/LogsPage.jsx
 import React from "react";
 import Button from "../components/ui/form/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LogSheet from "../components/logs/LogSheet";
 
 const mockRouteData = {
@@ -88,7 +89,6 @@ function buildLineGrid(events) {
 }
 
 export default function LogsPage() {
-  const navigate = useNavigate();
   const { routeId } = useParams();
   const dailySheets = buildLineGrid(mockRouteData.events);
 
@@ -96,32 +96,23 @@ export default function LogsPage() {
     window.print();
   };
 
-  const handleViewRoute = () => {
-    navigate(`/route/${routeId}`);
-  };
-
   return (
-    <div className=" mx-auto p-6">
+    <div className="mx-auto p-6 max-w-screen bg-transparent">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">ELD Log Sheet(s)</h1>
+        <h1 className="text-3xl font-bold text-primary">ELD Log Sheet(s)</h1>
+
         <div className="flex space-x-4">
-          <Button
-            variant="secondary"
-            className="px-6 py-2"
-            onClick={handleViewRoute}
-          >
-            ← View Route
-          </Button>
-          <button
-            onClick={handlePrint}
-            className="px-6 py-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 font-medium transition-colors"
-          >
+          <Link to={`/route/${routeId}`}>
+            <Button variant="secondary" className="px-5 py-2">
+              ← View Route
+            </Button>
+          </Link>
+          <Button onClick={handlePrint} variant="success" className="px-6 py-2">
             Print All Logs
-          </button>
+          </Button>
         </div>
       </div>
 
-      {/* each daily log sheet */}
       {dailySheets.map((dayData, idx) => (
         <LogSheet key={dayData.date} dayData={dayData} index={idx} />
       ))}

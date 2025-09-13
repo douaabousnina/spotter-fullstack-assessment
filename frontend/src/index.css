@@ -1,8 +1,49 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #424340; /* Deep charcoal — for headings, key text */
+  --color-secondary: #606c5a; /* Muted olive-gray — for buttons, accents */
+  --color-light: #c9e3cc; /* Soft minty green — for backgrounds */
+  --color-background: #b8cbd0; /* Subtle cool gray-blue — for cards, containers */
+  --color-border: #b0b9a8; /* Light sage — for dividers, borders */
+  --color-text: #424340; /* Primary text color (same as primary) */
+  --color-danger: #ef4444; /* Standard red (unchanged for consistency) */
+  --color-success: #10b981; /* Standard green (unchanged for consistency) */
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
 @media print {
   @page {
     size: landscape;
     margin: 0.5in;
+  }
+
+  .border-gray-400,
+  .border-r.border-gray-400,
+  .border-b.border-gray-400 {
+    border-color: #000 !important;
+  }
+
+  .bg-black {
+    background-color: #000 !important;
+  }
+
+  .text-red-500 {
+    color: #000 !important;
+  }
+
+  .border-b.border-gray-400 {
+    border-bottom-color: #000 !important;
+  }
+
+  .w-max {
+    width: auto !important;
+  }
+
+  .absolute.whitespace-nowrap {
+    color: #000 !important;
   }
 }
