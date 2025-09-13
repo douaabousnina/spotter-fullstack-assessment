@@ -8,9 +8,8 @@ class RouteListCreateView(generics.ListCreateAPIView):
     serializer_class = RouteSerializer
 
     def create(self, request, *args, **kwargs):
-        """
-        Generate a route (including waypoints/fuel/rest stops)
-        """
+        route = generate_rout(request.data)
+         
         return super().create(request, *args, **kwargs)
 
 class RouteRetrieveView(generics.RetrieveAPIView):
