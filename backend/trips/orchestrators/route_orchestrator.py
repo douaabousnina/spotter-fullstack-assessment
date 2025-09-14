@@ -9,7 +9,7 @@ from core.constants import PICKUP_DROPOFF_TIME, FUEL_STOP_TIME
 class RouteOrchestrator:
     
     @staticmethod
-    def _get_api_data(waypoints: List[Tuple[float, float]]) -> Tuple[float, float, List[dict], List]:
+    def _get_api_data(waypoints: List[Tuple[float, float]]) -> Tuple[float, float, List[List[dict]], List]:
         api_response = RoutingService.get_route_from_api(waypoints=waypoints)
         
         if "features" not in api_response or not api_response["features"]:
@@ -17,18 +17,19 @@ class RouteOrchestrator:
 
         feature = api_response['features'][0]
         properties = feature['properties']
+
         
         return (
             properties['distance'],
             properties['time'],
-            properties['legs'][0]['steps'],
+            [leg['steps'] for leg in properties['legs']],
             feature["geometry"]["coordinates"]
         )
 
     @staticmethod
     def _calculate_service_time(required_stops: List[dict]) -> int:
-        pickup_dropoff_time = 2 * PICKUP_DROPOFF_TIME * 60
-        fuel_stop_time = len([s for s in required_stops if s['type'] == 'fuel']) * FUEL_STOP_TIME * 60
+        pickup_dropoff_time = 2 * PICKUP_DROPOFF_TIME
+        fuel_stop_time = len([s for s in required_stops if s['type'] == 'fuel']) * FUEL_STOP_TIME
         return pickup_dropoff_time + fuel_stop_time
 
     @staticmethod
@@ -36,10 +37,15 @@ class RouteOrchestrator:
         return [(stop["coordinates"][1], stop["coordinates"][0], stop) for stop in required_stops]
 
     @staticmethod
-    def _create_waypoints(route: Route, origin: Location, destination: Location, 
+    def _create_waypoints(route: Route, current_location: Location, origin: Location, destination: Location, 
                          intermediate_locations: List[Tuple[float, float, dict]]) -> None:
         waypoints_to_create = []
         order = 0
+
+        waypoints_to_create.append(
+            Waypoint(route=route, location=current_location, type='current', order=order)
+        )
+        order += 1
 
         waypoints_to_create.append(
             Waypoint(route=route, location=origin, type='pickup', order=order)
@@ -48,9 +54,10 @@ class RouteOrchestrator:
 
         for lat, lon, stop in intermediate_locations:
             stop_location = Location.objects.create(
-                name=stop['description'], 
+                # name=stop['description'], 
                 latitude=lat, 
-                longitude=lon
+                longitude=lon,
+                name=""
             )
             waypoints_to_create.append(
                 Waypoint(route=route, location=stop_location, type=stop['type'], order=order)
@@ -66,28 +73,31 @@ class RouteOrchestrator:
     @staticmethod
     @transaction.atomic
     def create_route_with_stops(
+        current_location: Location, 
         origin: Location, 
         destination: Location, 
-        current_driving_hours: float = 0,
-        current_duty_hours: float = 0
+        current_cycle_hours: float
     ) -> Route:
         
-        origin_dest_waypoints = [(origin.longitude, origin.latitude), (destination.longitude, destination.latitude)]
-        total_distance, total_duration, steps, coordinates = RouteOrchestrator._get_api_data(origin_dest_waypoints)
+        initial_waypoints = [(current_location.longitude, current_location.latitude), (origin.longitude, origin.latitude), (destination.longitude, destination.latitude)]
+        total_distance, total_duration, steps, coordinates = RouteOrchestrator._get_api_data(initial_waypoints)
         
+        current_driving_hours = current_cycle_hours * 0.8 # assuming 80% of the cycle is driving
+        current_duty_hours = current_cycle_hours
+                
         required_stops = RoutingService.calculate_required_stops(
             steps, coordinates, current_driving_hours, current_duty_hours
         )
 
-
         intermediate_locations = []
         if required_stops:
-            api_waypoints = [origin_dest_waypoints[0]]
+            api_waypoints = [initial_waypoints[0]]
+            
             for stop in required_stops:
                 api_waypoints.append(tuple(stop["coordinates"]))
-            api_waypoints.append(origin_dest_waypoints[1])
+                
+            api_waypoints.append(initial_waypoints[2])
             
-            total_distance, total_duration, _, _ = RouteOrchestrator._get_api_data(api_waypoints)
             intermediate_locations = RouteOrchestrator._create_intermediate_locations(required_stops)
 
         service_time = RouteOrchestrator._calculate_service_time(required_stops)
@@ -100,6 +110,6 @@ class RouteOrchestrator:
             total_duration=total_duration
         )
 
-        RouteOrchestrator._create_waypoints(route, origin, destination, intermediate_locations)
+        RouteOrchestrator._create_waypoints(route, current_location, origin, destination, intermediate_locations)
         
         return route

@@ -24,7 +24,7 @@ class RoutingService:
 
     @staticmethod
     def calculate_required_stops(
-        steps: List[Dict],
+        steps: List[List[Dict]],
         coordinates: List[List[float]],
         current_driving_hours: float = 0,
         current_duty_hours: float = 0,
@@ -39,39 +39,42 @@ class RoutingService:
 
         accumulated_duty_time += PICKUP_DROPOFF_TIME # initial pickup
 
-        for step in steps:
-            step_time_minutes = step["time"] / 60.0
-            step_distance = step["distance"]
+        for idx, step_list in enumerate(steps):
+            for step in step_list:
+                step_time_minutes = step["time"] / 60.0
+                step_distance = step["distance"]
+                step_description = step["instruction"]
 
-            accumulated_driving_time += step_time_minutes
-            accumulated_duty_time += step_time_minutes
-            
-            accumulated_distance += step_distance
-
-            stop_reason = None
-            
-            if accumulated_driving_time >= MAX_DRIVING_HOURS * 60:
-                stop_reason = "rest"
-                accumulated_driving_time = 0.0
-                accumulated_duty_time = 0.0
+                accumulated_driving_time += step_time_minutes
+                accumulated_duty_time += step_time_minutes
                 
-            elif accumulated_duty_time >= MAX_DUTY_WINDOW_HOURS * 60:
-                stop_reason = "rest"
-                accumulated_driving_time = 0.0
-                accumulated_duty_time = 0.0
-                
-            elif accumulated_distance >= MAX_FUEL_RANGE_MILES:
-                stop_reason = "fuel"
-                accumulated_duty_time += FUEL_STOP_TIME
-                accumulated_distance = 0.0
+                accumulated_distance += step_distance
 
-            if stop_reason:
-                coord_index = step["to_index"]
-                if 0 <= coord_index < len(coordinates[0]):
-                    lon, lat = coordinates[0][coord_index]
-                    stops.append({
-                        "type": stop_reason,
-                        "coordinates": [lon, lat]
-                    })
+                stop_reason = None
+                
+                if accumulated_driving_time >= MAX_DRIVING_HOURS * 60:
+                    stop_reason = "rest"
+                    accumulated_driving_time = 0.0
+                    accumulated_duty_time = 0.0
+                    
+                elif accumulated_duty_time >= MAX_DUTY_WINDOW_HOURS * 60:
+                    stop_reason = "rest"
+                    accumulated_driving_time = 0.0
+                    accumulated_duty_time = 0.0
+                    
+                elif accumulated_distance >= MAX_FUEL_RANGE_MILES:
+                    stop_reason = "fuel"
+                    accumulated_duty_time += FUEL_STOP_TIME
+                    accumulated_distance = 0.0
+
+                if stop_reason:
+                    coord_index = step["to_index"]
+                    if 0 <= coord_index < len(coordinates[idx]):
+                        lon, lat = coordinates[idx][coord_index]
+                        stops.append({
+                            "type": stop_reason,
+                            "description": step_description,
+                            "coordinates": [lon, lat]
+                        })
 
         return stops

@@ -6,6 +6,10 @@ __pycache__/
 *.py.class
 *.so
 
+# Django migrations (ignore all except __init__.py)
+**/migrations/
+!**/migrations/__init__.py
+
 # Django stuff:
 *.log
 *.pot

@@ -12,21 +12,30 @@ class RouteListCreateView(generics.ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         try:
+            current = request.data.get("current")
             origin = request.data.get("origin")
             destination = request.data.get("destination")
             current_cycle_hours = request.data.get("current_cycle_hours", 0)  # Optional parameter
 
-            if not origin or not destination:
+            if not origin or not destination or not current:
                 return Response(
                     {"error": "origin and destination are required"},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
+            current_lat = float(current.get("latitude"))
+            current_lng = float(current.get("longitude"))
             origin_lat = float(origin.get("latitude"))
             origin_lng = float(origin.get("longitude"))
             dest_lat = float(destination.get("latitude"))
             dest_lng = float(destination.get("longitude"))
 
+            current_location = Location.objects.create(
+                name=f"{current_lat},{current_lng}",
+                latitude=current_lat,
+                longitude=current_lng,
+            )
+            
             origin_location = Location.objects.create(
                 name=f"{origin_lat},{origin_lng}",
                 latitude=origin_lat,
@@ -39,14 +48,14 @@ class RouteListCreateView(generics.ListCreateAPIView):
                 longitude=dest_lng,
             )
             
-            # Use the orchestrator to create the route with stops
+
             route = RouteOrchestrator.create_route_with_stops(
+                current_location=current_location,
                 origin=origin_location,
                 destination=destination_location,
                 current_cycle_hours=float(current_cycle_hours)
             )
             
-            # Serialize the created route
             serializer = self.get_serializer(route)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
