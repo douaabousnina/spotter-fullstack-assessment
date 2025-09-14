@@ -1,8 +1,21 @@
-# Python bytecode
-*.pyc
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.py.class
+*.so
 
-# Virtual environments
+# Django stuff:
+*.log
+*.pot
+*.pyc
+
+
+# Environment variables
+.env
+*.env
+
+# Virtual environment
 venv/
 .venv/
-env/
