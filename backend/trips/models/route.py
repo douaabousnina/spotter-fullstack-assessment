@@ -11,5 +11,3 @@ class Route(BaseModel):
     total_duration = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     
-    def __str__(self):
-        return f"Route from {self.origin} to {self.destination}"

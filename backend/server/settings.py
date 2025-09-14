@@ -20,10 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$ee9q00!!5v5puby-f%a)_oze8jc!f83dpsng73%a(x=p8d8sq'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+import os
+SECRET_KEY = os.getenv("DJANGO_KEY")
 
 ALLOWED_HOSTS = []
 
@@ -72,6 +70,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'server.wsgi.application'
 DEBUG = os.getenv("DEBUG", "0") == "1"
 
+# API keys & .env variables
+
+GEOAPIFY_BASE_URL = os.getenv("GEOAPIFY_BASE_URL")
+GEOAPIFY_API_KEY = os.getenv("GEOAPIFY_API_KEY")
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

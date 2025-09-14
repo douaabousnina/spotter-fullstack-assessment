@@ -13,3 +13,14 @@ DUTY_STATUS_CHOICES = [
         ('on_duty', 'On Duty'),
         ('rest', 'Rest'),
 ]
+
+# HOS regulations
+MAX_DRIVING_TIME_CYCLE = 70           # 70h
+MAX_FUEL_RANGE_MILES = 1000 
+PICKUP_DROPOFF_TIME = 3600            # 1h
+FUEL_STOP_TIME = 30 * 60              # 30mn
+
+MAX_DRIVING_HOURS = 11
+
+MAX_DUTY_WINDOW_HOURS = 14
+REQUIRED_BREAK_HOURS = 10

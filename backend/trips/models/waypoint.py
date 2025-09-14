@@ -11,6 +11,3 @@ class Waypoint(BaseModel):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     type = models.CharField(max_length=20, choices=WAYPOINT_TYPE_CHOICES)
     order = models.PositiveIntegerField()
-    
-    def __str__(self):
-        return f"Waypoint number {self.order} in {self.location}"
