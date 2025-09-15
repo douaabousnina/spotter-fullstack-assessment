@@ -16,13 +16,13 @@ DUTY_STATUS_CHOICES = [
 
 # HOS regulations
 MAX_DRIVING_TIME_CYCLE = 70           # 70h
-MAX_DRIVING_HOURS = 11
-MAX_DUTY_WINDOW_HOURS = 14
-REQUIRED_BREAK_HOURS = 10
+MAX_DRIVING_HOURS = 11                # 10h
+MAX_DUTY_WINDOW_HOURS = 14            # 14h
 
 MAX_FUEL_RANGE_MILES = 1000 
 
-FUEL_STOP_TIME = 30 * 60              # 30mn
-PICKUP_DROPOFF_TIME = 1 * 60           # 1h
+FUEL_STOP_TIME = 0.5                  # 30mn
+PICKUP_DROPOFF_TIME = 1               # 1h
+REQUIRED_BREAK_HOURS = 10             # 10h
 
 

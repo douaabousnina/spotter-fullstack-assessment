@@ -9,4 +9,7 @@ class WaypointSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Waypoint
-        fields = ['id', 'location', 'type', 'order']
+        fields = ['id', 'location', 'type', 'order', 'arrival_time', 'spent_time']
+        
+        unique_together = ['route', 'order']
+        ordering = ['route', 'order']

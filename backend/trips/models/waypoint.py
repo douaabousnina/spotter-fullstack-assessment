@@ -11,3 +11,6 @@ class Waypoint(BaseModel):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     type = models.CharField(max_length=20, choices=WAYPOINT_TYPE_CHOICES)
     order = models.PositiveIntegerField()
+    
+    arrival_time = models.DateTimeField(null=True, blank=True)
+    spent_time = models.PositiveIntegerField(default=0)
