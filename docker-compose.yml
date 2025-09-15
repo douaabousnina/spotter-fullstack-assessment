@@ -1,0 +1,54 @@
+services:
+  # PostgreSQL database
+  db:
+    image: postgres:17
+    container_name: assessment-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Django backend
+  web:
+    build:
+      context: ./backend
+    container_name: assessment-backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # React frontend
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   container_name: assessment-frontend
+  #   ports:
+  #     - "5173:80"   # React via Nginx
+  #   depends_on:
+  #     - web
+  #   networks:
+  #     - app-network
+
+
+volumes:
+  pgdata:
+
+networks:
+  app-network:
+    driver: bridge

@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TripFormFields from "./TripFormFields";
 import Button from "../ui/form/Button";
-import Spinner from "../ui/Spinner";
 import tripFormSchema from "../../schemas/tripFormSchema";
+import Loading from "../ui/Loading";
 
 export default function TripForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,7 @@ export default function TripForm() {
 
       <div className="flex justify-end">
         <Button variant="primary" type="submit" disabled={isLoading}>
-          {isLoading ? <Spinner /> : "Generate Route & ELD Logs"}
+          {isLoading ? <Loading /> : "Generate Route & ELD Logs"}
         </Button>
       </div>
     </form>
