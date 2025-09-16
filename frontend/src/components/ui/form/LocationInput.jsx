@@ -12,7 +12,7 @@ export default function LocationInput({
   const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
-    if (!query) {
+    if (!query || query.length < 2) {
       setResults([]);
       return;
     }
@@ -51,7 +51,6 @@ export default function LocationInput({
       <input
         value={query}
         onChange={(e) => {
-          if (e.target.value.length < 2) return;
           setQuery(e.target.value);
           setShowDropdown(true);
         }}
