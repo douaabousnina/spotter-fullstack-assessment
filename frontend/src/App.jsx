@@ -14,7 +14,7 @@ export default function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/route/:routeId" element={<RouteOverviewPage />} />
-              <Route path="/logs/:routeId" element={<LogsPage />} />
+              <Route path="/eldLogs/:routeId" element={<LogsPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>

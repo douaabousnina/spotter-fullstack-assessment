@@ -2,7 +2,7 @@
 import React from "react";
 import Button from "../components/ui/form/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import LogSheet from "../components/logs/LogSheet";
+import LogSheet from "../components/eldLogs/Logsheet";
 
 const mockRouteData = {
   route_id: "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
