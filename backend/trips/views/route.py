@@ -3,7 +3,6 @@ from rest_framework.response import Response
 
 from trips.models import Route, Location
 from trips.serializers import RouteSerializer
-from trips.services import RoutingService
 from trips.orchestrators import RouteOrchestrator
 
 class RouteListCreateView(generics.ListCreateAPIView):
@@ -15,7 +14,7 @@ class RouteListCreateView(generics.ListCreateAPIView):
             current = request.data.get("current")
             origin = request.data.get("origin")
             destination = request.data.get("destination")
-            current_cycle_hours = request.data.get("current_cycle_hours", 0)  # Optional parameter
+            current_cycle_hours = request.data.get("current_cycle_hours")
 
             if not origin or not destination or not current:
                 return Response(
@@ -75,10 +74,6 @@ class RouteRetrieveView(generics.RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         
-        # Add route analysis to response
-        analysis = RoutingService.get_route_analysis(instance)
-        
         response_data = serializer.data
-        response_data['analysis'] = analysis
         
         return Response(response_data)
