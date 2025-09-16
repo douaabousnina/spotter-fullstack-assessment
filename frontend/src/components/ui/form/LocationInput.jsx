@@ -51,6 +51,7 @@ export default function LocationInput({
       <input
         value={query}
         onChange={(e) => {
+          if (e.target.value.length < 2) return;
           setQuery(e.target.value);
           setShowDropdown(true);
         }}
