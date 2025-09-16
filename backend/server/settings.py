@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 SECRET_KEY = os.getenv("DJANGO_KEY")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "spotter-fullstack-assessment.vercel.app",
+]
 
 
 # Application definition
