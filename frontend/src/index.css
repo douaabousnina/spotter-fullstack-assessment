@@ -3,8 +3,8 @@
 @theme {
   --color-primary: #424340; /* Deep charcoal — for headings, key text */
   --color-secondary: #606c5a; /* Muted olive-gray — for buttons, accents */
-  --color-light: #c9e3cc; /* Soft minty green — for backgrounds */
-  --color-background: #b8cbd0; /* Subtle cool gray-blue — for cards, containers */
+  --color-light: #fff8f0; /* Soft minty green — for backgrounds */
+  --color-background: #FAFAFA; /* Subtle cool gray-blue — for cards, containers */
   --color-border: #b0b9a8; /* Light sage — for dividers, borders */
   --color-text: #424340; /* Primary text color (same as primary) */
   --color-danger: #ef4444; /* Standard red (unchanged for consistency) */
