@@ -24,5 +24,5 @@ MAX_FUEL_RANGE_MILES = 1000
 FUEL_STOP_TIME = 0.5                  # 30mn
 PICKUP_DROPOFF_TIME = 1               # 1h
 REQUIRED_BREAK_HOURS = 10             # 10h
-
+CYCLE_RESET_HOURS = 34                # 34h
 
