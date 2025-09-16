@@ -25,7 +25,9 @@ SECRET_KEY = os.getenv("DJANGO_KEY")
 
 ALLOWED_HOSTS = [
     "spotter-fullstack-assessment.vercel.app",
+    "spotter-fullstack-assessment-production.up.railway.app",
 ]
+
 
 
 # Application definition
