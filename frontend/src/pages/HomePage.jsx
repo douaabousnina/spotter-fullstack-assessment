@@ -1,8 +1,6 @@
 import TripForm from "../components/trip/TripForm";
 
 export default function HomePage() {
-  console.log("VITE key:", import.meta.env.VITE_MAP_SEARCH_API_KEY);
-
   return (
     <div className="bg-white rounded-xl shadow-md p-10 mx-auto">
       <div className="text-center mb-10">
