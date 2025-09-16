@@ -8,7 +8,6 @@ const locationAPIClient = axios.create({
   params: {
     language: "en",
     key: import.meta.env.VITE_MAP_SEARCH_API_KEY,
-    debounce: 300,
   },
 });
 
