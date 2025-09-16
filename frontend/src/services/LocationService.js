@@ -5,6 +5,11 @@ const locationAPIClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  params: {
+    language: "en",
+    key: import.meta.env.VITE_MAP_SEARCH_API_KEY,
+    debounce: 300,
+  },
 });
 
 const LocationService = {
@@ -13,9 +18,6 @@ const LocationService = {
       const res = await locationAPIClient.get("", {
         params: {
           q: `${lat},${lng}`,
-          language: "en",
-          key: import.meta.env.VITE_MAP_SEARCH_API_KEY,
-          debounce: 300,
         },
       });
       const name = res.data.results[0]?.formatted || null;
@@ -31,9 +33,6 @@ const LocationService = {
       const res = await locationAPIClient.get("", {
         params: {
           q: name,
-          language: "en",
-          key: import.meta.env.VITE_MAP_SEARCH_API_KEY,
-          debounce: 300,
         },
       });
       if (!res.data.results.length) return null;

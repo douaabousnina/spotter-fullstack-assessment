@@ -28,10 +28,6 @@ export default function TripForm() {
     defaultValues: { current_cycle_hours: 0 },
   });
 
-  console.log("curr ", currentLocation);
-  console.log("pick ", pickupLocation);
-  console.log("drop ", dropoffLocation);
-
   const onSubmit = async (data) => {
     if (!currentLocation || !pickupLocation || !dropoffLocation) {
       setError("Please select all locations from the dropdown.");
