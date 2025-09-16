@@ -32,7 +32,7 @@ export default function RouteOverviewPage() {
   if (!routeData) return <p>No route found.</p>;
 
   const waypoints = routeData.waypoints.map((wp) => ({
-    address: wp.location.name,
+    address: wp.location.name || "",
     lat: wp.location.latitude,
     lng: wp.location.longitude,
     type: wp.type,
