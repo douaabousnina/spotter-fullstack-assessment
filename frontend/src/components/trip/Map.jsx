@@ -81,7 +81,7 @@ export default function RouteMap({ waypoints }) {
             <Popup>
               <strong className="capitalize">{wp.type}</strong>
               <br />
-              {waypointsWithNames[index].name}
+              {waypointsWithNames[index]?.name}
               <br />
               Lat: {wp.lat.toFixed(6)}, Lng: {wp.lng.toFixed(6)}
             </Popup>

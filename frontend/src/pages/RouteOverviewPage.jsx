@@ -36,10 +36,61 @@ export default function RouteOverviewPage() {
     lat: wp.location.latitude,
     lng: wp.location.longitude,
     type: wp.type,
+    time: wp.arrival_time,
   }));
 
   const restStops = waypoints.filter((w) => w.type === "rest");
   const fuelStops = waypoints.filter((w) => w.type === "fuel");
+
+  const getStopLabel = (type) => {
+    switch (type) {
+      case "start":
+        return "Start Location";
+      case "pickup":
+        return "Pickup Point";
+      case "dropoff":
+        return "Delivery Point";
+      case "fuel":
+        return "Fuel Stop";
+      case "rest":
+        return "Mandatory Rest";
+      case "cycle_reset":
+        return "Cycle Rest";
+      default:
+        return "Waypoint";
+    }
+  };
+
+  const getStopColor = (type) => {
+    switch (type) {
+      case "start":
+        return "border-l-[#0ea5e9] bg-sky-50";
+      case "pickup":
+        return "border-l-[#22c55e] bg-green-50";
+      case "dropoff":
+        return "border-l-[#3b82f6] bg-blue-50";
+      case "fuel":
+        return "border-l-[#f97316] bg-orange-50";
+      case "rest":
+      case "cycle_reset":
+        return "border-l-[#ef4444] bg-red-50";
+      default:
+        return "border-l-gray-500 bg-gray-50";
+    }
+  };
+
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    return date.toLocaleString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
 
   return (
     <div className="mx-auto p-6">
@@ -50,7 +101,7 @@ export default function RouteOverviewPage() {
         <div className="flex space-x-4">
           <Link to="/">
             <Button variant="secondary" className="px-5 py-2">
-              ← Edit Trip
+              ← Try Another Trip
             </Button>
           </Link>
           <Link to={`/eldLogs/${routeId}`}>
@@ -106,6 +157,40 @@ export default function RouteOverviewPage() {
         <div className="bg-white rounded-xl shadow border border-border p-6 text-center">
           <p className="text-sm text-primary mb-1">Mandatory Rest Stops</p>
           <p className="text-3xl font-bold text-gray-800">{restStops.length}</p>
+        </div>
+      </div>
+
+      {/* Route Stops List */}
+      <div className="bg-white rounded-xl shadow border border-border p-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+          Route Breakdown
+        </h2>
+        <div className="space-y-3">
+          {waypoints.map((waypoint, index) => (
+            <div
+              key={index}
+              className={`flex items-center p-4 rounded-lg border-l-4 ${getStopColor(
+                waypoint.type
+              )}`}
+            >
+              <div className="flex items-center space-x-4 flex-1">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                      Stop {index + 1}
+                    </span>
+                    <span className="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">
+                      {getStopLabel(waypoint.type)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">
+                    <strong>Estimated arrival:</strong>{" "}
+                    {formatDateTime(waypoint.time)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
