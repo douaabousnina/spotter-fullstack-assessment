@@ -135,4 +135,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = "https://spotter-fullstack-assessment.vercel.app"
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = [
+        'http://localhost:5173',
+        'https://spotter-fullstack-assessment.vercel.app',
+]
