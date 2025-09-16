@@ -34,9 +34,18 @@ const LocationService = {
           q: name,
         },
       });
+
       if (!res.data.results.length) return null;
-      const { lat, lng } = res.data.results[0].geometry;
-      return { lat, lng };
+
+      const locations = res.data.results.map((item) => {
+        return {
+          formatted: item.formatted,
+          lat: item.geometry.lat,
+          lng: item.geometry.lng,
+        };
+      });
+
+      return locations;
     } catch (err) {
       console.error("getLocationCoordinates error:", err);
       return null;

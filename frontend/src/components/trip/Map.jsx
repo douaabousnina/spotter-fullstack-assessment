@@ -39,7 +39,7 @@ export default function RouteMap({ waypoints }) {
 
   if (!waypoints || waypoints.length === 0) return null;
 
-  const polylinePoints = waypointsWithNames.map((wp) => [wp.lat, wp.lng]);
+  const polylinePoints = waypoints.map((wp) => [wp.lat, wp.lng]);
 
   // Fix default Leaflet icons
   delete L.Icon.Default.prototype._getIconUrl;
@@ -63,7 +63,7 @@ export default function RouteMap({ waypoints }) {
 
       <Polyline positions={polylinePoints} color="blue" weight={3} />
 
-      {waypointsWithNames.map((wp, index) => {
+      {waypoints.map((wp, index) => {
         const color = MARKER_COLOR_MAP[wp.type] || "blue";
 
         const icon = new L.Icon({
@@ -81,7 +81,7 @@ export default function RouteMap({ waypoints }) {
             <Popup>
               <strong className="capitalize">{wp.type}</strong>
               <br />
-              {wp.name}
+              {waypointsWithNames[index].name}
               <br />
               Lat: {wp.lat.toFixed(6)}, Lng: {wp.lng.toFixed(6)}
             </Popup>

@@ -34,10 +34,11 @@ export default function LocationInput({
     setQuery(place.formatted);
     setResults([]);
     setShowDropdown(false);
+    console.log(place)
     onSelect({
       address: place.formatted,
-      latitude: place.geometry.lat,
-      longitude: place.geometry.lng,
+      latitude: place.lat,
+      longitude: place.lng,
     });
   };
 
